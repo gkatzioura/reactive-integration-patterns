@@ -28,7 +28,7 @@ services:
     container_name: kafka-1
     image: confluent/kafka
     ports:
-    - "9092:9092"
+    - "127.0.0.1:9092:9092"
     volumes:
     - type: bind
       source: ./server1.properties
@@ -37,11 +37,13 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-1:9092"
   kafka-2:
     container_name: kafka-2
     image: confluent/kafka
     ports:
-      - "9093:9092"
+      - "127.0.0.2:9092:9092"
     volumes:
       - type: bind
         source: ./server2.properties
@@ -50,11 +52,13 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-2:9092"
   kafka-3:
     container_name: kafka-3
     image: confluent/kafka
     ports:
-      - "9094:9092"
+      - "127.0.0.3:9092:9092"
     volumes:
       - type: bind
         source: ./server3.properties
@@ -63,3 +67,5 @@ services:
       - zookeeper-1
       - zookeeper-2
       - zookeeper-3
+    environment:
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka-3:9092"
